@@ -8,14 +8,6 @@ import { TextInput } from '../../components/TextInput';
 import { loadPosts } from '../../Utils/loadPosts';
 
 export const Home = () => {
-  /*   state = {
-    posts: [],
-    allPosts: [],
-    page: 0,
-    postsPerPage: 10,
-    searchValue: ""
-  }; */
-
   const [posts, setPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
   const [page, setPage] = useState(0);
@@ -38,7 +30,7 @@ export const Home = () => {
   }, []);
 
   useEffect(() => {
-    handleLoadPosts(page, postsPerPage);
+    handleLoadPosts(0, postsPerPage);
   }, [handleLoadPosts, postsPerPage]);
 
   const loadMorePosts = () => {
@@ -94,14 +86,14 @@ export default Home;
   async componentDidMount(){
     await this.loadPosts();
   };
-  
+
   loadPosts = async () => {
     const {page, postsPerPage} = this.state;
     const postsAndPhotos = await loadPosts();
     this.setState({
     posts: postsAndPhotos.slice(page,postsPerPage),
     allPosts: postsAndPhotos
-  }); 
+  });
   }
 
   loadMorePosts = () => {
@@ -137,12 +129,12 @@ export default Home;
       <>
       <h1>Search value: {searchValue}</h1><br />
       </>
-      )} 
+      )}
 
-      <TextInput 
+      <TextInput
       searchValue={searchValue}
       handleChange={this.handleChange}
-      /> 
+      />
       </div>
       <br></br><br></br>
       {filteredPosts.length > 0 && (
@@ -154,7 +146,7 @@ export default Home;
       )}
       <div className="button-container">
         {!searchValue && (
-          <Button 
+          <Button
           disabled={noMorePosts}
           text="load more posts"
           onClick={this.loadMorePosts}
@@ -164,12 +156,12 @@ export default Home;
     </section>
     );
 
-    const filteredPosts = !!searchValue ? 
+    const filteredPosts = !!searchValue ?
     allPosts.filter(post => {
       return post.title.toLowerCase().includes(searchValue.toLowerCase());
     }): posts;
 
-    
+
   }
 }
 
